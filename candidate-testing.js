@@ -28,6 +28,7 @@ let correctAnswers = [
 
 let candidateAnswers = [];
 let currentQuestionIndex = 0;
+let score = 0;
 
 
 //runProgram() 
@@ -54,11 +55,12 @@ function askQuestion() {
 
 function gradeQuiz(candidateAnswers) {
   
+  let grade = 0;
   // TODO 1.2c: Let the candidate know if they have answered the question correctly or incorrectly // 
   
   console.log(`Your Answer: ${candidateAnswers[currentQuestionIndex]}`)
   console.log(`Correct Answer: ${correctAnswers[currentQuestionIndex]}`)
-  currentQuestionIndex += 1;
+  
   
   /*
   if (candidateAnswer === correctAnswer){
@@ -68,9 +70,15 @@ function gradeQuiz(candidateAnswers) {
   }
   */
 
-  let grade;  //TODO 3.2 use this variable to calculate the candidates score.
+    //TODO 3.2 use this variable to calculate the candidates score.
 
-
+  if (candidateAnswers[currentQuestionIndex] == correctAnswers[currentQuestionIndex]){
+    grade += 1
+  } else {
+    grade = 0
+  }
+  console.log(grade)
+  currentQuestionIndex += 1;
   return grade;
 }
 
@@ -80,11 +88,21 @@ function runProgram() {
   console.log(`Hello there ${candidateName}!`);
   for (let i = 0; i < questions.length; i++){
     askQuestion();
-    gradeQuiz(this.candidateAnswers);
-    console.log()
+    score += gradeQuiz(this.candidateAnswers);
+    //console.log("Score is", score);
+    //console.log(gradeQuiz(this.candidateAnswers))
   }
+  console.log("Score is", score);
+  let percentageGrade = score / questions.length * 100
+  let gradeStatus = "";
+  if (percentageGrade > 80){
+    gradeStatus += "PASSED";
+  } else {
+    gradeStatus += "FAILED";
+  }
+  console.log(`>>> Overall Grade: ${percentageGrade}% (${score} of ${questions.length} responses correct) <<<`);
+  console.log(`>>> Status: ${gradeStatus} <<<`);
   
- 
 }
 
 // ----------- Don't write any code or change any code below this line ---------- //

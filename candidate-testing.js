@@ -27,7 +27,9 @@ let correctAnswers = [
 ];
 
 let candidateAnswers = [];
-let currentQuestionIndex = 0;
+let numCorrect = 0;
+
+//let currentQuestionIndex = 0;
 let score = 0;
 
 
@@ -41,12 +43,12 @@ function askForName() {
 function askQuestion() {
   // TODO 1.2b: Ask candidate the question and assign the response as candidateAnswer //
   
-  // for (let i = 0; i < questions.length; i++){
-  //   candidateAnswers.push(input.question(questions[i]));
-  //   gradeQuiz(candidateAnswers);
-  // }
+  for (let i = 0; i < questions.length; i++){
+    candidateAnswers.push(input.question(questions[i]));
+    //gradeQuiz(candidateAnswers);
+  }
 
-  candidateAnswers.push(input.question(questions[currentQuestionIndex]));
+  //candidateAnswers.push(input.question(questions[currentQuestionIndex]));
   //gradeQuiz(candidateAnswers);
   
 
@@ -58,27 +60,24 @@ function gradeQuiz(candidateAnswers) {
   let grade = 0;
   // TODO 1.2c: Let the candidate know if they have answered the question correctly or incorrectly // 
   
-  console.log(`Your Answer: ${candidateAnswers[currentQuestionIndex]}`)
-  console.log(`Correct Answer: ${correctAnswers[currentQuestionIndex]}`)
   
-  
-  /*
-  if (candidateAnswer === correctAnswer){
-    console.log("Yes, that's right");
-  } else {
-    console.log("Not enough chucks.");
+  for (let i = 0; i < questions.length; i++){
+    console.log(`Your Answer: ${candidateAnswers[i]}`)
+    console.log(`Correct Answer: ${correctAnswers[i]}`)
+    if (candidateAnswers[i].toLowerCase() == correctAnswers[i].toLowerCase()){
+      grade += 20
+      numCorrect += 1
+    } else {
+      grade += 0
+    }
   }
-  */
+
 
     //TODO 3.2 use this variable to calculate the candidates score.
 
-  if (candidateAnswers[currentQuestionIndex] == correctAnswers[currentQuestionIndex]){
-    grade += 1
-  } else {
-    grade = 0
-  }
-  console.log(grade)
-  currentQuestionIndex += 1;
+  
+  //console.log(grade)
+  //currentQuestionIndex += 1;
   return grade;
 }
 
@@ -86,21 +85,23 @@ function runProgram() {
   askForName();
   // TODO 1.1c: Greet candidate using their name //
   console.log(`Hello there ${candidateName}!`);
-  for (let i = 0; i < questions.length; i++){
-    askQuestion();
-    score += gradeQuiz(this.candidateAnswers);
+  // for (let i = 0; i < questions.length; i++){
+  //   askQuestion();
+  //   score += gradeQuiz(this.candidateAnswers);
     //console.log("Score is", score);
     //console.log(gradeQuiz(this.candidateAnswers))
-  }
-  console.log("Score is", score);
-  let percentageGrade = score / questions.length * 100
+  // }
+  askQuestion();
+  score += gradeQuiz(this.candidateAnswers);
+  //console.log("Score is", score);
+  //let percentageGrade = score / questions.length * 100
   let gradeStatus = "";
-  if (percentageGrade > 80){
+  if (score > 80){
     gradeStatus += "PASSED";
   } else {
     gradeStatus += "FAILED";
   }
-  console.log(`>>> Overall Grade: ${percentageGrade}% (${score} of ${questions.length} responses correct) <<<`);
+  console.log(`>>> Overall Grade: ${score}% (${numCorrect} of ${questions.length} responses correct) <<<`);
   console.log(`>>> Status: ${gradeStatus} <<<`);
   
 }
